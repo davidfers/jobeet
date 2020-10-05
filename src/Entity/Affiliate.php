@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="affiliates")
+ * @ORM\HasLifecycleCallbacks()
  */
 
 class Affiliate
@@ -212,5 +213,13 @@ class Affiliate
         }
 
         return $this;
+    }
+
+    /**
+     *@ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime();
     }
 }

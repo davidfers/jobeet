@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="jobs")
+ * @ORM\HasLifecycleCallbacks()
  */
 
 class Job
@@ -17,6 +18,7 @@ class Job
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
      */
     private $id;
 
@@ -460,4 +462,17 @@ class Job
         return $this;
     }
 
+    /**
+     *@ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
 }
